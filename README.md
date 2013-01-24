@@ -8,6 +8,11 @@ This small javascript class turns a dom element into a joystick for touchscreens
 
 * Easy integration thanks to pretendKeydown
 
+##Demo##
+========
+
+http://nurgak.github.com/Cube-engine/ (Press joystick to show it, you can use chrome to emulate touchevents)
+
 ##License##
 ===========
 
