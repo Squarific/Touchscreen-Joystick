@@ -29,6 +29,9 @@ Settings is an object containing the following:
 ```javascript
 	{
 		pretendArrowKeys: boolean, //Should it simulate keypresses of the arrows, default true
+		mindistance: number, //Distance the joystick needs to move before an action should be taken
+		middleLeft: number, //Amount of pixels to the middle of the joystick from the left
+		middleTop: number //Amount of pixels to the middle of the joystick from the top
 	}
 ```
 
