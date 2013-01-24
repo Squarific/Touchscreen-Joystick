@@ -28,7 +28,13 @@ SQUARIFIC.framework.TouchControl = function (elem, settings) {
 		settings = {};
 	}
 	if (isNaN(settings.mindistance)) {
-		settings.mindistance = "20px";
+		settings.mindistance = 20;
+	}
+	if (isNaN(settings.middleLeft)) {
+		settings.middleLeft = 0;
+	}
+	if (isNaN(settings.middleTop)) {
+		settings.middleTop = 0;
 	}
 	if (!elem) {
 		throw "Joystick Control: No element provided! Provided:" + elem;
@@ -86,8 +92,8 @@ SQUARIFIC.framework.TouchControl = function (elem, settings) {
 			originalX = event.changedTouches[0].clientX;
 			originalY = event.changedTouches[0].clientY;
 			elem.style.position = "fixed";
-			elem.style.left = event.changedTouches[0].clientX - event.changedTouches[0].target.style.width.slice(0, -2) / 2 + "px";
-			elem.style.top = event.changedTouches[0].clientY - event.changedTouches[0].target.style.height.slice(0, -2) / 2 + "px";
+			elem.style.left = event.changedTouches[0].clientX - settings.middleLeft + "px";
+			elem.style.top = event.changedTouches[0].clientY - settings.middleTop + "px";
 			event.preventDefault();
 		}
 	};
@@ -105,29 +111,30 @@ SQUARIFIC.framework.TouchControl = function (elem, settings) {
 			var i, k, keys = [], angle, distance,
 			deltaX = event.changedTouches[0].clientX - originalX,
 			deltaY = event.changedTouches[0].clientY - originalY;
-			elem.style.left = event.changedTouches[0].clientX - event.changedTouches[0].target.style.width.slice(0, -2) / 2 + "px";
-			elem.style.top = event.changedTouches[0].clientY - event.changedTouches[0].target.style.height.slice(0, -2) / 2 + "px";
+			elem.style.left = event.changedTouches[0].clientX - settings.middleLeft + "px";
+			elem.style.top = event.changedTouches[0].clientY - settings.middleTop + "px";
 			event.preventDefault();
 			distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 			if (settings.pretendArrowKeys) {
 				if (distance < settings.mindistance) {
 					self.removeNonFakedKeys();
-				}
-				angle = multiple * Math.round((Math.atan2(deltaY, deltaX) * 180 / Math.PI) / multiple);
-				for (i = 0; i < angleKeys.length; i++) {
-					if (angleKeys[i].angle === angle) {
-						for (k = 0; k < angleKeys[i].keyCodes.length; k++) {
-							keys.push(angleKeys[i].keyCodes[k]);
+				} else {
+					angle = multiple * Math.round((Math.atan2(deltaY, deltaX) * 180 / Math.PI) / multiple);
+					for (i = 0; i < angleKeys.length; i++) {
+						if (angleKeys[i].angle === angle) {
+							for (k = 0; k < angleKeys[i].keyCodes.length; k++) {
+								keys.push(angleKeys[i].keyCodes[k]);
+							}
 						}
 					}
-				}
-				for (i = 0; i < keys.length; i++) {
-					if (!self.inArray(keys[i], fakeKeyspressed)) {
-						fakeKeyspressed.push(keys[i]);
+					for (i = 0; i < keys.length; i++) {
+						if (!self.inArray(keys[i], fakeKeyspressed)) {
+							fakeKeyspressed.push(keys[i]);
+						}
+						self.cb("pretendKeydown", {keyCode: keys[i]});
 					}
-					self.cb("pretendKeydown", {keyCode: keys[i]});
+					self.removeNonFakedKeys(keys);
 				}
-				self.removeNonFakedKeys(keys);
 			} else {
 				//Planned for later
 			}
