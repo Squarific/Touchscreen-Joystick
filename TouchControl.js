@@ -27,6 +27,9 @@ SQUARIFIC.framework.TouchControl = function (elem, settings) {
 	if (!settings) {
 		settings = {};
 	}
+	if (isNaN(settings.mindistance)) {
+		settings.mindistance = "20px";
+	}
 	if (!elem) {
 		throw "Joystick Control: No element provided! Provided:" + elem;
 	}
@@ -105,7 +108,11 @@ SQUARIFIC.framework.TouchControl = function (elem, settings) {
 			elem.style.left = event.changedTouches[0].clientX - event.changedTouches[0].target.style.width.slice(0, -2) / 2 + "px";
 			elem.style.top = event.changedTouches[0].clientY - event.changedTouches[0].target.style.height.slice(0, -2) / 2 + "px";
 			event.preventDefault();
+			distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 			if (settings.pretendArrowKeys) {
+				if (distance < settings.mindistance) {
+					self.removeNonFakedKeys();
+				}
 				angle = multiple * Math.round((Math.atan2(deltaY, deltaX) * 180 / Math.PI) / multiple);
 				for (i = 0; i < angleKeys.length; i++) {
 					if (angleKeys[i].angle === angle) {
