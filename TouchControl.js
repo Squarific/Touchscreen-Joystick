@@ -102,7 +102,7 @@ SQUARIFIC.framework.TouchControl = function (elem, settings) {
 	};
 	this.handleTouchMove = function (event) {
 		if (event.changedTouches[0].target == elem) {
-			var i, k, keys = [], angle,
+			var i, k, keys = [], angle, distance,
 			deltaX = event.changedTouches[0].clientX - originalX,
 			deltaY = event.changedTouches[0].clientY - originalY;
 			elem.style.left = event.changedTouches[0].clientX - event.changedTouches[0].target.style.width.slice(0, -2) / 2 + "px";
