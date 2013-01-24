@@ -41,3 +41,7 @@ The returned event object only contains keyCode at this moment. E.g.:
 		keyCode: 38;
 	}
 ```
+
+The following events are available:
+* pretendKeydown
+* pretendKeyup
