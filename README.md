@@ -6,7 +6,11 @@ This small javascript class turns a dom element into a joystick for touchscreens
 ##Feature##
 ===========
 
-* Easy integration thanks to pretendKeydown
+* Easy and fast integration thanks to pretendKeydown
+* Supports all touchscreen devices
+* Small and high performance
+* Much styling can be done without changing the source code
+* Normaly doesn't break anything
 
 ##Demo##
 ========
