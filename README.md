@@ -11,6 +11,9 @@ This small javascript class turns a dom element into a joystick for touchscreens
 ##Demo##
 ========
 
+http://squarific.github.com/Touchscreen-Joystick/ (official)
+
+Integrated in projects: (feel free to add yours)
 http://nurgak.github.com/Cube-engine/ (Press joystick to show it, you can use chrome to emulate touchevents)
 
 ##License##
