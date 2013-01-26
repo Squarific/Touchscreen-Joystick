@@ -28,7 +28,7 @@ SQUARIFIC.TouchControlDemo = function (elem, name, settings) {
 				joystick = new SQUARIFIC.framework.TouchControl(document.getElementById(name + "_joystick"), {
 					pretendArrowKeys: true,
 					mindistance: 25,
-					maxdistance: 50,
+					maxdistance: 75,
 					middleLeft: 25,
 					middleTop: 25
 				});

@@ -1,10 +1,5 @@
 SQUARIFIC = {framework: {}};
 SQUARIFIC.framework.TouchControl = function (elem, settings) {
-	/* Settings: 
-		{
-			pretendArrowKeys: boolean, //Should it simulate keypresses of the arrows
-		}
-	*/
 	"use strict";
 	var callbackList = [],
 		self = this,
@@ -39,7 +34,6 @@ SQUARIFIC.framework.TouchControl = function (elem, settings) {
 	if (!elem) {
 		throw "Joystick Control: No element provided! Provided:" + elem;
 	}
-	settings.pretendArrowKeys = true; //Remove once non-pretend is implemented
 	this.on = function (name, callback) {
 		callbackList.sort(function (a, b) {return a.id - b.id;}); //To get a unique id we need the highest id last
 		if (callbackList.length < 1) {
@@ -108,36 +102,49 @@ SQUARIFIC.framework.TouchControl = function (elem, settings) {
 	};
 	this.handleTouchMove = function (event) {
 		if (event.changedTouches[0].target == elem) {
-			var i, k, keys = [], angle, distance,
+			var i, k, keys = [], keyAngle, distance,
 			deltaX = event.changedTouches[0].clientX - originalX,
-			deltaY = event.changedTouches[0].clientY - originalY;
-			elem.style.left = event.changedTouches[0].clientX - settings.middleLeft + "px";
-			elem.style.top = event.changedTouches[0].clientY - settings.middleTop + "px";
-			event.preventDefault();
+			deltaY = event.changedTouches[0].clientY - originalY,
+			angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
 			distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-			if (settings.pretendArrowKeys) {
-				if (distance < settings.mindistance) {
-					self.removeNonFakedKeys();
-				} else {
-					angle = multiple * Math.round((Math.atan2(deltaY, deltaX) * 180 / Math.PI) / multiple);
-					for (i = 0; i < angleKeys.length; i++) {
-						if (angleKeys[i].angle === angle) {
-							for (k = 0; k < angleKeys[i].keyCodes.length; k++) {
-								keys.push(angleKeys[i].keyCodes[k]);
+			event.preventDefault();
+			if (distance < settings.mindistance) {
+				self.removeNonFakedKeys();
+			} else {
+				if (settings.pretendArrowKeys) {
+						keyAngle = multiple * Math.round(angle / multiple);
+						for (i = 0; i < angleKeys.length; i++) {
+							if (angleKeys[i].angle === keyAngle) {
+								for (k = 0; k < angleKeys[i].keyCodes.length; k++) {
+									keys.push(angleKeys[i].keyCodes[k]);
+								}
 							}
 						}
-					}
-					for (i = 0; i < keys.length; i++) {
-						if (!self.inArray(keys[i], fakeKeyspressed)) {
-							fakeKeyspressed.push(keys[i]);
+						for (i = 0; i < keys.length; i++) {
+							if (!self.inArray(keys[i], fakeKeyspressed)) {
+								fakeKeyspressed.push(keys[i]);
+							}
+							self.cb("pretendKeydown", {keyCode: keys[i]});
 						}
-						self.cb("pretendKeydown", {keyCode: keys[i]});
-					}
-					self.removeNonFakedKeys(keys);
+						self.removeNonFakedKeys(keys);
+				} else {
+					self.cb("joystickMove", {
+						distance: distance,
+						angle: angle,
+						deltaX: deltaX,
+						deltaY: deltaY
+					});
 				}
-			} else {
-				//Planned for later
 			}
+			if (distance > settings.maxdistance) {
+				elem.style.position = "relative";
+				elem.style.left = settings.maxdistance * Math.cos(angle * Math.PI / 180) + "px";
+				elem.style.top = settings.maxdistance * Math.sin(angle * Math.PI / 180) + "px";
+				return;
+			}
+			elem.style.position = "fixed";
+			elem.style.left = event.changedTouches[0].clientX - settings.middleLeft + "px";
+			elem.style.top = event.changedTouches[0].clientY - settings.middleTop + "px";
 		}
 	};
 	elem.addEventListener("touchstart", self.handleTouchStart);
