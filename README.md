@@ -42,6 +42,7 @@ Settings is an object containing the following:
 	{
 		pretendArrowKeys: boolean, //Should it simulate keypresses of the arrows, default true
 		mindistance: number, //Distance the joystick needs to move before an action should be taken
+		maxdistance: number, //The maximum distance the joystick may move
 		middleLeft: number, //Amount of pixels to the middle of the joystick from the left
 		middleTop: number //Amount of pixels to the middle of the joystick from the top
 	}
@@ -52,11 +53,20 @@ Settings is an object containing the following:
 
 The returned event object only contains keyCode at this moment. E.g.:
 ```javascript
-  {
+//pretendKeydown, pretendKeyup
+	{
 		keyCode: 38;
+	}
+//joystickMove
+	{
+		distance: number, //The distance from the beginpoint to the mouse
+		angle: angle, //The angle between the x-axis and the line from the beginpoint to the mouse, up = -, down = +, left 180, right 0
+		deltaX: deltaX, //The difference from the beginpoint to the mouse over the x-axis
+		deltaY: deltaY //The difference from the beginpoint to the mouse over the y-axis
 	}
 ```
 
 The following events are available:
 * pretendKeydown
 * pretendKeyup
+* joystickMove
