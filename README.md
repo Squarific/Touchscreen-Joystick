@@ -51,7 +51,7 @@ Settings is an object containing the following:
 ##Event##
 =========
 
-The returned event object only contains keyCode at this moment. E.g.:
+The returned event object: 
 ```javascript
 //pretendKeydown, pretendKeyup
 	{
