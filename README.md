@@ -23,10 +23,11 @@ http://nurgak.github.com/Cube-engine/ (Press joystick to show it, you can use ch
 ##License##
 ===========
 
-> You can use this however you want, edit it, publish it, use it, send it to other people, etc. but you have to either mention my name, my website or this github (Filip Smets or squarific.com, does not have to be clickable, or github.com/Squarific/Touchscreen-Joystick).
+You are free to use this code however you want.
 
 ##How to use ##
 ===============
+
 ```javascript
   var joystick = new SQUARIFIC.framework.TouchControl(elem, settings); //e.g. elem = document.getElementById("joystick"); settings is explained later
 	joystick.on("pretendKeydown", function (event) {console.log(event)});
@@ -34,8 +35,6 @@ http://nurgak.github.com/Cube-engine/ (Press joystick to show it, you can use ch
 
 ##Settings##
 ============
-
-_*Not yet implemented*_
 
 Settings is an object containing the following:
 ```javascript
