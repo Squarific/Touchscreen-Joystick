@@ -1,10 +1,9 @@
-#Touchscreen-Joystick#
-======================
+Touchscreen-Joystick
+====================
 
 This small javascript class turns a dom element into a joystick for touchscreens.
 
-##Feature##
-===========
+## Feature
 
 * Easy and fast integration thanks to pretendKeydown
 * Supports all touchscreen devices
@@ -12,29 +11,25 @@ This small javascript class turns a dom element into a joystick for touchscreens
 * Much styling can be done without changing the source code
 * Normaly doesn't break anything
 
-##Demo##
-========
+## Demo
 
 http://squarific.github.com/Touchscreen-Joystick/ (official)
 
 Integrated in projects: (feel free to add yours)
 http://nurgak.github.com/Cube-engine/ (Press joystick to show it, you can use chrome to emulate touchevents)
 
-##License##
-===========
+## License
 
 You are free to use this code however you want.
 
-##How to use ##
-===============
+## How to use
 
 ```javascript
   var joystick = new SQUARIFIC.framework.TouchControl(elem, settings); //e.g. elem = document.getElementById("joystick"); settings is explained later
 	joystick.on("pretendKeydown", function (event) {console.log(event)});
 ```
 
-##Settings##
-============
+## Settings
 
 Settings is an object containing the following:
 ```javascript
@@ -47,8 +42,7 @@ Settings is an object containing the following:
 	}
 ```
 
-##Event##
-=========
+## Event
 
 The returned event object: 
 ```javascript
